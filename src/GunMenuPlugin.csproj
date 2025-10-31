@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- CounterStrikeSharp API -->
+    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.*" />
+
+    <!-- CS2MenuManager - for WASD and CenterHTML menus -->
+    <!-- You need to download CS2MenuManager.dll separately and place it in the same folder as CounterStrikeSharp -->
+    <Reference Include="CS2MenuManager">
+      <HintPath>$(CS2_SERVER_PATH)\game\csgo\addons\counterstrikesharp\shared\CS2MenuManager.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

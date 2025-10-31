@@ -1,0 +1,45 @@
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+## Visual Studio cache/options
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
+
+## NuGet
+*.nupkg
+packages/
+.nuget/
+
+## Temporary files
+temp-*/
+*.tmp
+*.log
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
