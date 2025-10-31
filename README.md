@@ -15,7 +15,7 @@ Counter-Strike 2 gun menu plugin **CounterStrikeSharp**-pal és **WASD vezérlé
 
 1. **Metamod:Source** (CS2 verzió)
 2. **CounterStrikeSharp** (legújabb verzió)
-3. **CS2MenuManager** plugin
+3. **CS2MenuManager** (submodule-ként benne van a projektben)
 
 ## 🔧 Telepítés
 
@@ -27,40 +27,68 @@ Töltsd le és telepítsd a Metamod:Source-t a CS2 szerveredre:
 Töltsd le és telepítsd a CounterStrikeSharp-ot:
 - https://github.com/roflmuffin/CounterStrikeSharp/releases
 
-### 3. CS2MenuManager telepítése
-Töltsd le és telepítsd a CS2MenuManager-t:
-- https://github.com/schwarper/CS2MenuManager/releases
+### 3. Repository klónozása submodule-okkal
 
-Helyezd el a fájlokat:
+```bash
+# Clone a repository és a submodule-ok
+git clone --recurse-submodules https://github.com/Jezus09/Gun-Menu.git
+
+# VAGY ha már klónoztad, inicializáld a submodule-okat:
+git clone https://github.com/Jezus09/Gun-Menu.git
+cd Gun-Menu
+git submodule update --init --recursive
+```
+
+### 4. Fordítás forráskódból
+
+```bash
+cd Gun-Menu
+
+# Fordítsd le a CS2MenuManager-t először
+cd dependencies/CS2MenuManager/CS2MenuManager
+dotnet build -c Release
+
+# Majd a Gun Menu plugint
+cd ../../../src
+dotnet build -c Release
+```
+
+### 5. Telepítés a szerverre
+
+A lefordított fájlokat másold be a szerver megfelelő helyére:
+
 ```
 csgo/addons/counterstrikesharp/
 ├── shared/
-│   └── CS2MenuManager.dll
+│   └── CS2MenuManager.dll  (dependencies/CS2MenuManager/CS2MenuManager/bin/Release/net8.0/)
 └── plugins/
-    └── CS2MenuManager/
-        └── CS2MenuManager.dll
+    ├── CS2MenuManager/
+    │   └── CS2MenuManager.dll
+    └── GunMenuPlugin/
+        └── GunMenuPlugin.dll  (src/bin/Release/net8.0/)
 ```
 
-### 4. Gun Menu Plugin telepítése
+**Egyszerűbb telepítési script:**
+```bash
+# Lépj be a projekt gyökér mappájába
+cd Gun-Menu
 
-#### Opció A: Előre lefordított verzió
-1. Töltsd le a legújabb release-t
-2. Csomagold ki a `GunMenuPlugin` mappát ide:
-   ```
-   csgo/addons/counterstrikesharp/plugins/GunMenuPlugin/
-   ```
+# Másold be a fájlokat (cseréld ki a CS2_SERVER_PATH-t a szervered elérési útjára)
+CS2_SERVER_PATH="/path/to/your/cs2/server"
 
-#### Opció B: Fordítás forráskódból
-1. Clone-old ezt a repository-t
-2. Navigálj a `src` mappába
-3. Futtasd:
-   ```bash
-   dotnet build -c Release
-   ```
-4. A lefordított DLL-t másold be:
-   ```
-   csgo/addons/counterstrikesharp/plugins/GunMenuPlugin/GunMenuPlugin.dll
-   ```
+# CS2MenuManager
+cp dependencies/CS2MenuManager/CS2MenuManager/bin/Release/net8.0/CS2MenuManager.dll \
+   "$CS2_SERVER_PATH/game/csgo/addons/counterstrikesharp/shared/"
+
+mkdir -p "$CS2_SERVER_PATH/game/csgo/addons/counterstrikesharp/plugins/CS2MenuManager"
+cp dependencies/CS2MenuManager/CS2MenuManager/bin/Release/net8.0/CS2MenuManager.dll \
+   "$CS2_SERVER_PATH/game/csgo/addons/counterstrikesharp/plugins/CS2MenuManager/"
+
+# Gun Menu Plugin
+mkdir -p "$CS2_SERVER_PATH/game/csgo/addons/counterstrikesharp/plugins/GunMenuPlugin"
+cp src/bin/Release/net8.0/GunMenuPlugin.dll \
+   "$CS2_SERVER_PATH/game/csgo/addons/counterstrikesharp/plugins/GunMenuPlugin/"
+```
 
 ## 🎮 Használat
 
@@ -121,7 +149,25 @@ RegisterEventHandler<EventRoundStart>(OnRoundStart);
 
 ## 📄 Licensz
 
-MIT License
+Ez a projekt **GPL-3.0** licensz alatt érhető el (lásd [LICENSE](LICENSE) fájl), mivel a CS2MenuManager dependency-t használja, ami szintén GPL-3.0 licensz alatt van.
+
+### Külső komponensek
+
+- **CS2MenuManager** - [schwarper/CS2MenuManager](https://github.com/schwarper/CS2MenuManager) (GPL-3.0)
+- **CounterStrikeSharp** - [roflmuffin/CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
+
+## 📁 Projekt struktúra
+
+```
+Gun-Menu/
+├── src/                          # Gun Menu plugin forráskód
+│   ├── GunMenuPlugin.cs
+│   ├── WeaponHelper.cs
+│   └── GunMenuPlugin.csproj
+├── dependencies/
+│   └── CS2MenuManager/           # Git submodule
+└── README.md
+```
 
 ## 🤝 Közreműködés
 
@@ -130,6 +176,12 @@ Pull request-ek és issue-k várva várják!
 ## 📧 Kapcsolat
 
 Ha kérdésed van, nyiss egy issue-t a GitHub-on.
+
+## 🙏 Köszönetnyilvánítás
+
+- **schwarper** - CS2MenuManager készítője
+- **roflmuffin** - CounterStrikeSharp framework
+- **Constummer** - cs2-simple-guns-menu inspirációért
 
 ---
 

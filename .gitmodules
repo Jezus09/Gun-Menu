@@ -1,0 +1,3 @@
+[submodule "dependencies/CS2MenuManager"]
+	path = dependencies/CS2MenuManager
+	url = https://github.com/schwarper/CS2MenuManager.git

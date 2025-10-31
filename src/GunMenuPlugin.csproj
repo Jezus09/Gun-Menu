@@ -12,12 +12,19 @@
     <!-- CounterStrikeSharp API -->
     <PackageReference Include="CounterStrikeSharp.API" Version="1.0.*" />
 
-    <!-- CS2MenuManager - for WASD and CenterHTML menus -->
-    <!-- You need to download CS2MenuManager.dll separately and place it in the same folder as CounterStrikeSharp -->
+    <!-- CS2MenuManager - Reference from submodule or server installation -->
     <Reference Include="CS2MenuManager">
-      <HintPath>$(CS2_SERVER_PATH)\game\csgo\addons\counterstrikesharp\shared\CS2MenuManager.dll</HintPath>
+      <HintPath>..\dependencies\CS2MenuManager\CS2MenuManager\bin\Release\net8.0\CS2MenuManager.dll</HintPath>
       <Private>false</Private>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Build CS2MenuManager from submodule if needed -->
+    <ProjectReference Include="..\dependencies\CS2MenuManager\CS2MenuManager\CS2MenuManager.csproj">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>
